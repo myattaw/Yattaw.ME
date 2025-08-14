@@ -61,8 +61,8 @@ function App() {
                     <h1 className="text-4xl font-bold my-2 text-white">{profile.fullName}</h1>
                     <p className="text-lg text-gray-300">{profile.description}</p>
                     <p className="mt-4">
-                        <a href={profile.githubUrl} className="inline-block px-6 py-2.5 mx-2 border border-blue-400 text-blue-400 font-medium rounded hover:bg-blue-700 hover:text-white transition-colors">GitHub</a>
-                        <a href={profile.linkedinUrl} className="inline-block px-6 py-2.5 mx-2 border border-blue-400 text-blue-400 font-medium rounded hover:bg-blue-700 hover:text-white transition-colors">LinkedIn</a>
+                        <a href={profile.githubUrl} className="minecraft-button-blue">GitHub</a>
+                        <a href={profile.linkedinUrl} className="minecraft-button-blue">LinkedIn</a>
                     </p>
                 </div>
             </section>

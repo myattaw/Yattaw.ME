@@ -1,36 +1,24 @@
-/* Font declarations */
-@font-face {
-    font-family: 'MinecraftSeven';
-    src: local('Minecraft-Seven'),
-    url('../public/fonts/minecraft-seven.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'MinecraftTen';
-    src: local('Minecraft-Ten'),
-    url('../public/fonts/minecraft-ten.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
-}
-
+/* Remove Stratum font declarations and replace with Inter */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
     margin: 0;
-    font-family: 'MinecraftSeven', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     @apply bg-gray-900 text-gray-100;
+    font-weight: 400;
 }
 
 h1, h2, h3 {
-    font-family: 'MinecraftTen', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    font-weight: 600;
 }
 
 code {
@@ -195,4 +183,64 @@ code {
     padding: 0.25rem 0.5rem;
     color: rgb(190, 210, 240);
     font-size: 0.75rem;
+}
+
+.minecraft-button-blue {
+    position: relative;
+    display: inline-flex; /* Changed to inline-flex to be side by side */
+    align-items: center;
+    justify-content: center;
+    width: auto; 
+    min-height: 36px; /* Reduced from 50px */
+    background-color: rgb(38, 97, 133);
+    border: 2px rgb(30, 35, 40) solid; /* Reduced border from 3px to 2px */
+    cursor: pointer;
+    overflow: hidden; 
+    text-align: center; 
+    word-wrap: break-word;
+    color: white;
+    z-index: 3; 
+    max-width: 150px; /* Added max-width to make them smaller */
+    transition: top 0.05s, background-color 0.05s; 
+    font-size: 14px; /* Reduced from 16px */
+    padding: 0 12px; /* Reduced padding */
+    margin: 0 8px;
+    line-height: 1; /* Ensure text sits on a consistent baseline */
+}
+
+.minecraft-button-blue::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 4px; /* Reduced from 5px to match smaller button */
+    border: 2px solid rgb(78, 147, 193); /* Reduced border from 3px to 2px */
+    background-color: rgb(58, 127, 173); /* Inner blue background */
+    transition: bottom 0.05s;
+    z-index: -1;
+}
+
+.minecraft-button-blue:hover::before {
+    background-color: rgb(68, 137, 183); /* Slightly lighter on hover */
+    border-color: rgb(98, 167, 213);
+}
+
+.minecraft-button-blue:active {
+    top: 4px; /* Reduced from 6px */
+    height: 32px; /* Reduced from 44px */
+}
+
+.minecraft-button-blue:active::before {
+    bottom: 0;
+}
+
+/* Remove previous ::after as it's not needed with this style */
+.minecraft-button-blue::after {
+    content: none;
+}
+
+/* Remove previous hover styles that would conflict */
+.minecraft-button-blue:hover {
+    color: white; /* Changed to white to match the non-hover state */
 }
