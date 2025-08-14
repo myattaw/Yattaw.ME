@@ -1,0 +1,20 @@
+@Yattaw.ME_HostAddress = http://localhost:5248
+
+GET {{Yattaw.ME_HostAddress}}/api/profile
+Accept: application/json
+
+###
+
+GET {{Yattaw.ME_HostAddress}}/api/repositories
+Accept: application/json
+
+###
+
+GET {{Yattaw.ME_HostAddress}}/api/experience
+Accept: application/json
+
+###
+
+GET {{Yattaw.ME_HostAddress}}/api/test
+
+###

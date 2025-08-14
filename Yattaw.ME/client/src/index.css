@@ -1,0 +1,198 @@
+/* Font declarations */
+@font-face {
+    font-family: 'MinecraftSeven';
+    src: local('Minecraft-Seven'),
+    url('../public/fonts/minecraft-seven.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MinecraftTen';
+    src: local('Minecraft-Ten'),
+    url('../public/fonts/minecraft-ten.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    margin: 0;
+    font-family: 'MinecraftSeven', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    @apply bg-gray-900 text-gray-100;
+}
+
+h1, h2, h3 {
+    font-family: 'MinecraftTen', sans-serif;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Carousel styles */
+.carousel-inner {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    /* Removed min-height that was causing extra space */
+}
+
+/* Carousel animation */
+.carousel-item {
+    position: absolute;
+    width: 100%;
+    opacity: 0;
+    transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+    transform: translateX(0);
+}
+
+.carousel-item.active {
+    position: relative;
+    opacity: 1;
+    z-index: 10;
+}
+
+/* Slide animations */
+.carousel-item.slide-next:not(.active) {
+    transform: translateX(100%);
+}
+
+.carousel-item.active.slide-next {
+    transform: translateX(0);
+}
+
+.carousel-item.slide-prev:not(.active) {
+    transform: translateX(-100%);
+}
+
+.carousel-item.active.slide-prev {
+    transform: translateX(0);
+}
+
+/* Dark mode specific adjustments */
+.dark {
+    color-scheme: dark;
+}
+
+/* Minecraft-style repository box */
+.minecraft-box {
+    position: relative;
+    border: 3px solid rgb(30, 30, 31);
+    overflow: hidden;
+    background-color: rgb(49, 50, 51);
+    max-width: 100%;
+    box-sizing: border-box;
+    transition: all 0.1s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.minecraft-box-header {
+    padding: 0.75rem;
+    border-bottom: 3px solid rgb(30, 30, 31);
+    background-color: rgb(42, 43, 44);
+}
+
+.minecraft-box-content {
+    padding: 1rem;
+    padding-bottom: calc(1rem - 2px); /* Reduce bottom padding by 2px to move content up */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.minecraft-box::after {
+    content: '';
+    display: block;
+    height: 25px;
+    background-color: rgb(72, 73, 74);
+    transition: background-color 0.1s ease;
+    margin-top: auto;
+    margin-bottom: 5px;
+}
+
+.minecraft-box:hover::after {
+    background-color: rgb(88, 88, 90);
+}
+
+/* Remove the ::before pseudo-element that was causing issues */
+.minecraft-box:hover::before {
+    display: none;
+}
+
+.minecraft-button {
+    position: relative;
+    display: inline-block;
+    background-color: rgb(59, 133, 38); /* main body */
+    border: 2px solid rgb(30, 40, 30); /* outer border */
+    color: rgb(200, 210, 205);
+    text-align: center;
+    font-size: 0.875rem;
+    transition: all 0.1s ease;
+    width: 100%;
+    overflow: hidden;
+    padding: calc(0.5rem) 0.75rem calc(0.75rem);
+}
+
+.minecraft-button::after {
+    content: '';
+    position: absolute;
+    left: 0;   /* start at inner edge of border */
+    right: 0;  /* go to inner edge of border */
+    bottom: 0; /* align with bottom border */
+    height: 5px;
+    background-color: rgba(28,79,16,1);
+}
+
+
+.minecraft-button:hover {
+    background-color: rgb(65, 140, 45); /* Slightly lighter on hover */
+    color: #FFF;
+}
+
+.minecraft-button:active {
+    transform: translate(3px, 3px);
+    box-shadow: none; /* Remove shadow when pressed */
+}
+
+.minecraft-box:hover {
+    position: relative;
+    transform: translate(-3px, -3px);
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+}
+
+.minecraft-tag {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    background-color: rgb(72, 73, 74);
+    border: 2px solid rgb(30, 30, 31);
+    color: #eee;
+    font-size: 0.75rem;
+}
+
+.stars-counter {
+    background-color: rgb(95, 75, 25);
+    border: 2px solid rgb(65, 55, 20);
+    padding: 0.25rem 0.5rem;
+    color: rgb(240, 230, 180);
+    font-size: 0.75rem;
+    margin-left: 0.5rem;
+}
+
+.commits-counter {
+    background-color: rgb(35, 60, 95);
+    border: 2px solid rgb(25, 40, 65);
+    padding: 0.25rem 0.5rem;
+    color: rgb(190, 210, 240);
+    font-size: 0.75rem;
+}
