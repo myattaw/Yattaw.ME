@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Yattaw.ME.Config;
 using Yattaw.ME.Services;
 
@@ -34,8 +31,8 @@ namespace Yattaw.ME
                 options.AddPolicy("AllowReactDev", policy =>
                 {
                     policy.AllowAnyOrigin()
-                          .AllowAnyHeader()
-                          .AllowAnyMethod();
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
                 });
             });
         }
