@@ -10,12 +10,29 @@ function App() {
     const [activeSlide, setActiveSlide] = useState(0);
     const [animationDirection, setAnimationDirection] = useState(''); // 'next' or 'prev'
 
+    // Helper to chunk repositories into pages of 3
+    function chunkArray(array, size) {
+        if (!Array.isArray(array)) return [];
+        const result = [];
+        for (let i = 0; i < array.length; i += size) {
+            result.push(array.slice(i, i + size));
+        }
+        return result;
+    }
+
     useEffect(() => {
         // Fetch all data in parallel
-        Promise.all([fetch('http://localhost:5248/api/profile').then(res => res.json()), fetch('http://localhost:5248/api/repositories').then(res => res.json()), fetch('http://localhost:5248/api/experience').then(res => res.json())])
+        Promise.all([
+            fetch('https://mxww2lm634.execute-api.us-east-2.amazonaws.com/prod/api/profile').then(res => res.json()),
+            fetch('https://mxww2lm634.execute-api.us-east-2.amazonaws.com/prod/api/repositories').then(res => res.json()),
+            fetch('https://mxww2lm634.execute-api.us-east-2.amazonaws.com/prod/api/experience').then(res => res.json())
+        ])
             .then(([profileData, repositoriesData, experienceData]) => {
                 setProfile(profileData);
-                setRepositories(repositoriesData);
+                // Always chunk, even if already chunked or empty
+                let safeRepos = Array.isArray(repositoriesData) ? repositoriesData : [];
+                safeRepos = chunkArray(safeRepos, 3); // Always chunk, even if empty
+                setRepositories(safeRepos);
                 setExperience(experienceData);
                 setLoading(false);
             })
@@ -83,113 +100,125 @@ function App() {
                     {/* Carousel Items */}
                     <div className="relative overflow-hidden w-full">
                         <div className="container mx-auto px-4">
-                            {repositories.map((repository, pageIndex) => (
-                                <div
-                                    key={pageIndex}
-                                    className={`transition-all duration-500 carousel-item ${
-                                        pageIndex === activeSlide ? 'active' : ''
-                                    } ${animationDirection === 'next' ? 'slide-next' : 'slide-prev'}`}
-                                    style={{
-                                        display: Math.abs(pageIndex - activeSlide) <= 1 ||
-                                        (activeSlide === 0 && pageIndex === repositories.length - 1) ||
-                                        (activeSlide === repositories.length - 1 && pageIndex === 0)
-                                            ? 'block' : 'none'
-                                    }}
-                                >
-                                    <div className="flex flex-wrap -mx-4">
-                                        {repository.map((repo, i) => (
-                                            <div key={i} className="w-full md:w-1/3 px-4 mt-8 mb-8">
-                                                {/* Minecraft-style repository box */}
-                                                <div className="minecraft-box">
-                                                    <div className="minecraft-box-header flex justify-between items-center">
-                                                        <h3 className="text-gray-200 font-medium">{repo.name}</h3>
-                                                        <div className="flex">
-                                                        <span className="commits-counter">
-                                                            ~<AnimatedCounter
-                                                            value={repo.commitCount}
-                                                            triggerKey={pageIndex === activeSlide ? activeSlide : null}
-                                                        /> commits
-                                                        </span>
-                                                            <span className="stars-counter">
-                                                            <AnimatedCounter
-                                                                value={repo.starCount || 0}
-                                                                triggerKey={pageIndex === activeSlide ? activeSlide : null}
-                                                            /> stars
-                                                        </span>
-                                                        </div>
-                                                    </div>
-                                                    <div className="minecraft-box-content">
-                                                        <p className="text-gray-300 text-sm mb-2 flex-grow pl-1">{repo.description}</p> {/* Added pl-1 for padding-left */}
-                                                        <div className="flex justify-between mb-2 items-center">
-                                                            <span className="minecraft-tag">{repo.language}</span>
-                                                            <small className="text-gray-400">{repo.getSimpleDate}</small>
-                                                        </div>
-                                                        <a
-                                                            href={repo.htmlUrl}
-                                                            className="minecraft-button w-full"
-                                                        >
-                                                            GitHub Repository Link
-                                                        </a>
-                                                    </div>
-                                                    {/* The ::after pseudo-element will be added automatically */}
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
+                            {repositories.length === 0 ? (
+                                <div className="text-center text-gray-400 py-8">
+                                    No repositories found.
                                 </div>
-                            ))}
+                            ) : (
+                                repositories.map((repository, pageIndex) => (
+                                    Array.isArray(repository) ? (
+                                        <div
+                                            key={pageIndex}
+                                            className={`transition-all duration-500 carousel-item ${
+                                                pageIndex === activeSlide ? 'active' : ''
+                                            } ${animationDirection === 'next' ? 'slide-next' : 'slide-prev'}`}
+                                            style={{
+                                                display: Math.abs(pageIndex - activeSlide) <= 1 ||
+                                                (activeSlide === 0 && pageIndex === repositories.length - 1) ||
+                                                (activeSlide === repositories.length - 1 && pageIndex === 0)
+                                                    ? 'block' : 'none'
+                                            }}
+                                        >
+                                            <div className="flex flex-wrap -mx-4">
+                                                {repository.map((repo, i) => (
+                                                    <div key={i} className="w-full md:w-1/3 px-4 mt-8 mb-8">
+                                                        {/* Minecraft-style repository box */}
+                                                        <div className="minecraft-box">
+                                                            <div className="minecraft-box-header flex justify-between items-center">
+                                                                <h3 className="text-gray-200 font-medium">{repo.name}</h3>
+                                                                <div className="flex">
+                                                                <span className="commits-counter">
+                                                                    ~<AnimatedCounter
+                                                                    value={repo.commitCount}
+                                                                    triggerKey={pageIndex === activeSlide ? activeSlide : null}
+                                                                /> commits
+                                                                </span>
+                                                                    <span className="stars-counter">
+                                                                    <AnimatedCounter
+                                                                        value={repo.starCount || 0}
+                                                                        triggerKey={pageIndex === activeSlide ? activeSlide : null}
+                                                                    /> stars
+                                                                </span>
+                                                                </div>
+                                                            </div>
+                                                            <div className="minecraft-box-content">
+                                                                <p className="text-gray-300 text-sm mb-2 flex-grow pl-1">{repo.description}</p>
+                                                                <div className="flex justify-between mb-2 items-center">
+                                                                    <span className="minecraft-tag">{repo.language}</span>
+                                                                    <small className="text-gray-400">{repo.getSimpleDate}</small>
+                                                                </div>
+                                                                <a
+                                                                    href={repo.htmlUrl}
+                                                                    className="minecraft-button w-full"
+                                                                >
+                                                                    GitHub Repository Link
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ) : null
+                                ))
+                            )}
                         </div>
                     </div>
 
-                    {/* Carousel Indicators - Moved below repository content */}
-                    <div className="flex justify-center mt-6 space-x-2 items-center">
-                        {repositories.map((_, index) => (
-                            <button
-                                key={index}
-                                type="button"
-                                onClick={() => {
-                                    setAnimationDirection(index > activeSlide ? 'next' : 'prev');
-                                    setActiveSlide(index);
-                                }}
-                                className={`rounded-none transition-all duration-300 ${
-                                    index === activeSlide
-                                        ? 'w-5 h-5 bg-gray-300'
-                                        : 'w-3 h-3 bg-gray-600 hover:bg-gray-500'
-                                }`}
-                                aria-current={index === activeSlide ? 'true' : 'false'}
-                            />
-                        ))}
-                    </div>
+                    {/* Carousel Indicators */}
+                    {repositories.length > 0 && (
+                        <div className="flex justify-center mt-6 space-x-2 items-center">
+                            {repositories.map((_, index) => (
+                                <button
+                                    key={index}
+                                    type="button"
+                                    onClick={() => {
+                                        setAnimationDirection(index > activeSlide ? 'next' : 'prev');
+                                        setActiveSlide(index);
+                                    }}
+                                    className={`rounded-none transition-all duration-300 ${
+                                        index === activeSlide
+                                            ? 'w-5 h-5 bg-gray-300'
+                                            : 'w-3 h-3 bg-gray-600 hover:bg-gray-500'
+                                    }`}
+                                    aria-current={index === activeSlide ? 'true' : 'false'}
+                                />
+                            ))}
+                        </div>
+                    )}
 
                     {/* Carousel Controls */}
-                    <button
-                        className="absolute top-1/2 left-2 -translate-y-1/2 bg-gray-700 p-3 shadow-md hover:bg-gray-600 focus:outline-none"
-                        type="button"
-                        onClick={prevSlide}
-                    >
-                        <div
-                            className="w-6 h-6 bg-white"
-                            style={{
-                                clipPath: 'polygon(75% 0%, 50% 0%, 25% 50%, 50% 100%, 75% 100%, 50% 50%)'
-                            }}
-                        />
-                        <span className="sr-only">Previous</span>
-                    </button>
+                    {repositories.length > 0 && (
+                        <>
+                            <button
+                                className="absolute top-1/2 left-2 -translate-y-1/2 bg-gray-700 p-3 shadow-md hover:bg-gray-600 focus:outline-none"
+                                type="button"
+                                onClick={prevSlide}
+                            >
+                                <div
+                                    className="w-6 h-6 bg-white"
+                                    style={{
+                                        clipPath: 'polygon(75% 0%, 50% 0%, 25% 50%, 50% 100%, 75% 100%, 50% 50%)'
+                                    }}
+                                />
+                                <span className="sr-only">Previous</span>
+                            </button>
 
-                    <button
-                        className="absolute top-1/2 right-2 -translate-y-1/2 bg-gray-700 p-3 shadow-md hover:bg-gray-600 focus:outline-none"
-                        type="button"
-                        onClick={nextSlide}
-                    >
-                        <div
-                            className="w-6 h-6 bg-white"
-                            style={{
-                                clipPath: 'polygon(25% 0%, 50% 0%, 75% 50%, 50% 100%, 25% 100%, 50% 50%)'
-                            }}
-                        />
-                        <span className="sr-only">Next</span>
-                    </button>
-
+                            <button
+                                className="absolute top-1/2 right-2 -translate-y-1/2 bg-gray-700 p-3 shadow-md hover:bg-gray-600 focus:outline-none"
+                                type="button"
+                                onClick={nextSlide}
+                            >
+                                <div
+                                    className="w-6 h-6 bg-white"
+                                    style={{
+                                        clipPath: 'polygon(25% 0%, 50% 0%, 75% 50%, 50% 100%, 25% 100%, 50% 50%)'
+                                    }}
+                                />
+                                <span className="sr-only">Next</span>
+                            </button>
+                        </>
+                    )}
                 </div>
 
                 {/* Experience Section */}
