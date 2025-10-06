@@ -11,10 +11,9 @@ namespace Yattaw.ME.Models
         public string HtmlUrl { get; private set; }
         private DateTime LastUpdatedAt { get; set; }
         public int CommitCount { get; private set; }
-        
-        public int StarCount { get; set; }
+        public int StarCount { get; private set; }
 
-        private RepositoryData(string name, string description, string language, string htmlUrl, DateTime lastUpdatedAt, int commitCount = 0, int starCount = 0)
+        public RepositoryData(string name, string description, string language, string htmlUrl, DateTime lastUpdatedAt, int commitCount = 0, int starCount = 0)
         {
             Name = name;
             Description = string.IsNullOrEmpty(description) || description == "null" 
@@ -27,9 +26,9 @@ namespace Yattaw.ME.Models
             StarCount = starCount;
         }
 
-        public static RepositoryData Create(string name, string description, string language, string htmlUrl, DateTime lastUpdatedAt, int commitCount = 0)
+        public static RepositoryData Create(string name, string description, string language, string htmlUrl, DateTime lastUpdatedAt, int commitCount = 0, int starCount = 0)
         {
-            return new RepositoryData(name, description, language, htmlUrl, lastUpdatedAt, commitCount);
+            return new RepositoryData(name, description, language, htmlUrl, lastUpdatedAt, commitCount, starCount);
         }
         
         public string GetSimpleDate => LastUpdatedAt.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);

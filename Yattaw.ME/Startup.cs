@@ -3,14 +3,9 @@ using Yattaw.ME.Services;
 
 namespace Yattaw.ME
 {
-    public class Startup
+    public class Startup(IConfiguration configuration)
     {
-        private readonly IConfiguration _configuration;
-
-        public Startup(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
+        private readonly IConfiguration _configuration = configuration;
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -48,12 +43,9 @@ namespace Yattaw.ME
 
             app.UseCors("AllowReactDev");
 
-            // ✅ Add routing BEFORE UseEndpoints
+            // Add routing BEFORE UseEndpoints
             app.UseRouting();
 
-            // Initialize GitHub data service
-            var githubService = app.ApplicationServices.GetRequiredService<GithubDataService>();
-            githubService.ParseRepositoryDataAsync().GetAwaiter().GetResult();
 
             app.UseEndpoints(endpoints =>
             {
@@ -72,7 +64,8 @@ namespace Yattaw.ME
                 endpoints.MapGet("/api/repositories", async context =>
                 {
                     var githubService = app.ApplicationServices.GetRequiredService<GithubDataService>();
-                    await context.Response.WriteAsJsonAsync(githubService.GetRepositoryDataList());
+                    var repositories = await githubService.FetchRepositoryDataFromDynamoDbAsync();
+                    await context.Response.WriteAsJsonAsync(repositories);
                 });
 
                 endpoints.MapGet("/api/experience", async context =>
@@ -83,4 +76,5 @@ namespace Yattaw.ME
             });
         }
     }
+    
 }
