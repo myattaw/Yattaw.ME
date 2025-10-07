@@ -23,9 +23,9 @@ function App() {
     useEffect(() => {
         // Fetch all data in parallel
         Promise.all([
-            fetch('https://mxww2lm634.execute-api.us-east-2.amazonaws.com/prod/api/profile').then(res => res.json()),
-            fetch('https://mxww2lm634.execute-api.us-east-2.amazonaws.com/prod/api/repositories').then(res => res.json()),
-            fetch('https://mxww2lm634.execute-api.us-east-2.amazonaws.com/prod/api/experience').then(res => res.json())
+            fetch('https://api.yattaw.me/api/profile').then(res => res.json()),
+            fetch('https://api.yattaw.me/api/repositories').then(res => res.json()),
+            fetch('https://api.yattaw.me/api/experience').then(res => res.json())
         ])
             .then(([profileData, repositoriesData, experienceData]) => {
                 setProfile(profileData);
