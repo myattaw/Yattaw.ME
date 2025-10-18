@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+    <!-- monitor frame -->
+    <rect x="6" y="8" width="52" height="36" rx="3" fill="#1e1e1e" stroke="#888" stroke-width="2"/>
+
+    <!-- screen area -->
+    <rect x="10" y="12" width="44" height="28" rx="2" fill="#d8d8d8" stroke="#aaa" stroke-width="1"/>
+
+    <!-- screen reflection detail -->
+    <path d="M12 14 l20 0 l-16 24 l-4 0 z" fill="white" opacity="0.08"/>
+
+    <!-- stand -->
+    <rect x="28" y="46" width="8" height="8" rx="1" fill="#555"/>
+
+    <!-- base -->
+    <rect x="20" y="54" width="24" height="4" rx="1" fill="#444"/>
+
+    <!-- subtle shadow -->
+    <rect x="18" y="58" width="28" height="2" fill="#222" opacity="0.5"/>
+</svg>

@@ -3,52 +3,56 @@ using Yattaw.ME.Services;
 
 namespace Yattaw.ME
 {
-    public class Startup(IConfiguration configuration)
+    public class Startup
     {
-        private readonly IConfiguration _configuration = configuration;
+        private readonly IConfiguration _configuration;
+
+        public Startup(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add services to the container
+            services.AddAuthorization();  // 👈 Add this line first
+
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             services.AddHttpClient();
 
-            // Register website configuration
             services.AddSingleton<WebsiteConfiguration>();
-
-            // Register GitHub service
             services.AddSingleton<GithubDataService>();
 
-            // Allow CORS for React dev server
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowReactDev", policy =>
                 {
-                    policy.AllowAnyOrigin()
+                    policy.WithOrigins("http://localhost:3000")
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });
             });
         }
 
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // Configure the HTTP request pipeline
             if (env.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
-            app.UseCors("AllowReactDev");
+            app.UseHttpsRedirection();
 
-            // Add routing BEFORE UseEndpoints
-            app.UseRouting();
-
-
+            // 🚨 ORDER MATTERS
+            app.UseRouting();                 // 1️⃣ Add this before CORS
+            app.UseCors("AllowReactDev");     // 2️⃣ CORS goes after UseRouting
+            app.UseAuthorization();           // (optional but standard)
+            
             app.UseEndpoints(endpoints =>
             {
+                // GET /api/profile
                 endpoints.MapGet("/api/profile", async context =>
                 {
                     var config = app.ApplicationServices.GetRequiredService<WebsiteConfiguration>();
@@ -61,6 +65,7 @@ namespace Yattaw.ME
                     });
                 });
 
+                // GET /api/repositories
                 endpoints.MapGet("/api/repositories", async context =>
                 {
                     var githubService = app.ApplicationServices.GetRequiredService<GithubDataService>();
@@ -68,6 +73,7 @@ namespace Yattaw.ME
                     await context.Response.WriteAsJsonAsync(repositories);
                 });
 
+                // GET /api/experience
                 endpoints.MapGet("/api/experience", async context =>
                 {
                     var config = app.ApplicationServices.GetRequiredService<WebsiteConfiguration>();
@@ -76,5 +82,4 @@ namespace Yattaw.ME
             });
         }
     }
-    
 }

@@ -14,7 +14,9 @@ namespace Yattaw.ME.Services
         public GithubDataService(WebsiteConfiguration configuration, IHttpClientFactory httpClientFactory,
             ILogger<GithubDataService> logger)
         {
-            _dynamoDbClient = new AmazonDynamoDBClient();
+            var region = Environment.GetEnvironmentVariable("AWS_REGION") ?? "us-east-2";
+            var config = new AmazonDynamoDBConfig { RegionEndpoint = Amazon.RegionEndpoint.GetBySystemName(region) };
+            _dynamoDbClient = new AmazonDynamoDBClient(config);
         }
 
         public List<List<RepositoryData>> GetRepositoryDataList()
@@ -48,25 +50,25 @@ namespace Yattaw.ME.Services
                             starCount: 0
                         );
 
-                    string name = string.Empty;
+                    var name = string.Empty;
                     if (doc.TryGetValue("RepositoryName", out var repoNameVal) && repoNameVal != null)
                         name = repoNameVal.AsString();
                     else if (doc.TryGetValue("REPO#repoName", out var repoKeyVal) && repoKeyVal != null)
                         name = repoKeyVal.AsString()?.Replace("REPO#", "") ?? string.Empty;
 
-                    string description = doc.ContainsKey("Description") && doc["Description"] != null
+                    var description = doc.ContainsKey("Description") && doc["Description"] != null
                         ? doc["Description"].AsString()
                         : string.Empty;
 
-                    string language = doc.ContainsKey("Language") && doc["Language"] != null
+                    var language = doc.ContainsKey("Language") && doc["Language"] != null
                         ? doc["Language"].AsString()
                         : string.Empty;
 
-                    string htmlUrl = doc.ContainsKey("HtmlUrl") && doc["HtmlUrl"] != null
+                    var htmlUrl = doc.ContainsKey("HtmlUrl") && doc["HtmlUrl"] != null
                         ? doc["HtmlUrl"].AsString()
                         : string.Empty;
 
-                    DateTime lastUpdatedAt = DateTime.MinValue;
+                    var lastUpdatedAt = DateTime.MinValue;
                     if (doc.ContainsKey("PushedAt") && doc["PushedAt"] != null)
                     {
                         var pushedAtStr = doc["PushedAt"].AsString();
@@ -76,11 +78,11 @@ namespace Yattaw.ME.Services
                         }
                     }
 
-                    int commitCount = 0;
+                    var commitCount = 0;
                     if (doc.ContainsKey("CommitCount") && doc["CommitCount"] != null)
                         commitCount = doc["CommitCount"].AsInt();
 
-                    int starCount = 0;
+                    var starCount = 0;
                     if (doc.ContainsKey("StarCount") && doc["StarCount"] != null)
                         starCount = doc["StarCount"].AsInt();
 

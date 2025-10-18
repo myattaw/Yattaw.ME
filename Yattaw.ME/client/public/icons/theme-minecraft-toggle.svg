@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+    <!-- outer dark wood border -->
+    <rect x="0" y="0" width="64" height="64" fill="#3a2a1a"/>
+
+    <!-- lighter wood panel inset -->
+    <rect x="4" y="4" width="56" height="56" fill="#b97a3b"/>
+
+    <!-- inner bevel/frame -->
+    <rect x="6" y="6" width="52" height="52" fill="none" stroke="#7a4e22" stroke-width="4"/>
+
+    <!-- 3x3 crafting grid (12px cells inside a 36px square) -->
+    <!-- grid bounds -->
+    <rect x="14" y="14" width="36" height="36" fill="none" stroke="#5a3a20" stroke-width="2"/>
+
+    <!-- vertical lines -->
+    <line x1="26" y1="14" x2="26" y2="50" stroke="#5a3a20" stroke-width="2"/>
+    <line x1="38" y1="14" x2="38" y2="50" stroke="#5a3a20" stroke-width="2"/>
+
+    <!-- horizontal lines -->
+    <line x1="14" y1="26" x2="50" y2="26" stroke="#5a3a20" stroke-width="2"/>
+    <line x1="14" y1="38" x2="50" y2="38" stroke="#5a3a20" stroke-width="2"/>
+
+    <!-- subtle corner highlights for a bit of depth -->
+    <rect x="4" y="4" width="8" height="8" fill="#d08d4a" opacity="0.35"/>
+    <rect x="52" y="4" width="8" height="8" fill="#d08d4a" opacity="0.25"/>
+    <rect x="4" y="52" width="8" height="8" fill="#8b582b" opacity="0.25"/>
+    <rect x="52" y="52" width="8" height="8" fill="#8b582b" opacity="0.35"/>
+</svg>

@@ -256,3 +256,110 @@ code {
     margin-left: 8px;
     pointer-events: none;
 }
+
+/* Theme Switch Component */
+.theme-switch {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(31, 41, 55, 0.95);
+    backdrop-filter: blur(8px);
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.theme-switch button,
+.theme-switch-thumb,
+.theme-switch-thumb img {
+    outline: none;
+    -webkit-tap-highlight-color: transparent; /* removes mobile blue overlay */
+}
+
+.theme-switch button:focus,
+.theme-switch-thumb:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.theme-switch:hover {
+    background: rgba(31, 41, 55, 1);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.theme-switch.minecraft {
+    border: 2px solid rgb(30, 30, 31);
+    border-radius: 0;
+    background: rgb(49, 50, 51);
+}
+
+.theme-switch.minecraft:hover {
+    background: rgb(58, 59, 60);
+    transform: translate(-2px, -2px);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.theme-switch-track {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.minecraft .theme-switch-track {
+    border-radius: 0;
+    background: rgb(30, 30, 31);
+    border: 2px solid rgb(20, 20, 21);
+}
+
+.theme-switch-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    color: rgb(31, 41, 55);
+}
+
+/* adjust Minecraft version slightly */
+.theme-switch.minecraft .theme-switch-thumb {
+    top: 0; /* looks better for crafting table icon */
+}
+
+/* keep Modern default */
+.theme-switch.modern .theme-switch-thumb {
+    top: 2px;
+}
+
+.minecraft .theme-switch-thumb {
+    border-radius: 0;
+    background: rgb(95, 75, 25);
+    color: rgb(240, 230, 180);
+    border: 2px solid rgb(65, 55, 20);
+}
+
+.theme-switch-thumb.active {
+    left: 20px;
+}
+
+.minecraft .theme-switch-thumb.active {
+    outline: none;
+    box-shadow: none;
+}
+
+.theme-switch-label {
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 500;
+    min-width: 70px;
+}

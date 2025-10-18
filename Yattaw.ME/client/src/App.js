@@ -1,5 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import AnimatedCounter from './components/AnimatedCounter';
+import { ThemeSwitch } from "./components/ThemeSwitch";
+
+const API_BASE_URL = 'http://localhost:5000/api';
 
 function App() {
     const [profile, setProfile] = useState(null);
@@ -23,9 +26,9 @@ function App() {
     useEffect(() => {
         // Fetch all data in parallel
         Promise.all([
-            fetch('https://api.yattaw.me/api/profile').then(res => res.json()),
-            fetch('https://api.yattaw.me/api/repositories').then(res => res.json()),
-            fetch('https://api.yattaw.me/api/experience').then(res => res.json())
+            fetch(`${API_BASE_URL}/profile`).then(res => res.json()),
+            fetch(`${API_BASE_URL}/repositories`).then(res => res.json()),
+            fetch(`${API_BASE_URL}/experience`).then(res => res.json())
         ])
             .then(([profileData, repositoriesData, experienceData]) => {
                 setProfile(profileData);
@@ -61,6 +64,20 @@ function App() {
         setActiveSlide((prev) => (prev === 0 ? repositories.length - 1 : prev - 1));
     };
 
+    const [isMinecraftTheme, setIsMinecraftTheme] = React.useState(() => {
+        // Load theme from localStorage (persisted between sessions)
+        const saved = localStorage.getItem('minecraft-theme');
+        return saved ? JSON.parse(saved) : false;
+    });
+
+    const toggleTheme = () => {
+        setIsMinecraftTheme(prev => {
+            const newValue = !prev;
+            localStorage.setItem('minecraft-theme', JSON.stringify(newValue));
+            return newValue;
+        });
+    };
+
     if (loading) {
         return <div className="container mx-auto text-center my-20"><h2 className="text-2xl font-bold text-white">Loading...</h2></div>;
     }
@@ -71,6 +88,7 @@ function App() {
 
     return (
         <div className="App bg-gray-900 text-gray-100 min-h-screen">
+            <ThemeSwitch isMinecraft={isMinecraftTheme} onToggle={toggleTheme} />
             <main className="pb-16">
                 {/* Header Section */}
                 <section className="text-center">
