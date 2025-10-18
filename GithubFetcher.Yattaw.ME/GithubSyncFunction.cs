@@ -69,6 +69,31 @@ public partial class GithubSyncFunction
                 commitCount = commitsJson.RootElement.GetArrayLength();
             }
 
+            // Fetch README contents for this repo (base64 encoded)
+            var readmeContent = "";
+            try
+            {
+                var readmeApiUrl = $"https://api.github.com/repos/{githubUsername}/{repoName}/readme";
+                var readmeReq = new HttpRequestMessage(HttpMethod.Get, readmeApiUrl);
+                readmeReq.Headers.Add("User-Agent", "GithubSyncFunction");
+                // Do NOT add Accept: application/vnd.github.v3.raw
+                var readmeResp = await HttpClient.SendAsync(readmeReq);
+                if (readmeResp.IsSuccessStatusCode)
+                {
+                    var readmeJson = JsonDocument.Parse(await readmeResp.Content.ReadAsStringAsync());
+                    if (readmeJson.RootElement.TryGetProperty("encoding", out var encodingProp) &&
+                        encodingProp.GetString() == "base64" &&
+                        readmeJson.RootElement.TryGetProperty("content", out var contentProp))
+                    {
+                        readmeContent = contentProp.GetString();
+                    }
+                }
+            }
+            catch
+            {
+                // If README fetch fails, leave as empty string
+            }
+
             var document = new Document
             {
                 // Set the partition key as expected by your DynamoDB table
@@ -79,7 +104,8 @@ public partial class GithubSyncFunction
                 ["HtmlUrl"] = repo.GetProperty("html_url").GetString(),
                 ["PushedAt"] = repo.GetProperty("pushed_at").GetDateTime().ToString("o"),
                 ["CommitCount"] = commitCount,
-                ["StarCount"] = stars
+                ["StarCount"] = stars,
+                ["ReadmeContent"] = readmeContent
             };
 
             await table.PutItemAsync(document);
