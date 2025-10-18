@@ -68,6 +68,10 @@ namespace Yattaw.ME.Services
                         ? doc["HtmlUrl"].AsString()
                         : string.Empty;
 
+                    var readMeContent = string.Empty;
+                    if (doc.TryGetValue("ReadmeContent", out var readMeVal) && readMeVal != null)
+                        readMeContent = readMeVal.AsString();
+                    
                     var lastUpdatedAt = DateTime.MinValue;
                     if (doc.ContainsKey("PushedAt") && doc["PushedAt"] != null)
                     {
@@ -93,7 +97,8 @@ namespace Yattaw.ME.Services
                         htmlUrl: htmlUrl,
                         lastUpdatedAt: lastUpdatedAt,
                         commitCount: commitCount,
-                        starCount: starCount
+                        starCount: starCount,
+                        readMeContent
                     );
                 }));
             } while (!search.IsDone);

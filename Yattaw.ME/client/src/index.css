@@ -92,8 +92,7 @@ code {
 }
 
 .minecraft-box-content {
-    padding: 1rem;
-    padding-bottom: calc(1rem - 2px); /* Reduce bottom padding by 2px to move content up */
+    padding: 1rem 1rem calc(1rem - 2px);
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -135,11 +134,11 @@ code {
 .minecraft-button::after {
     content: '';
     position: absolute;
-    left: 0;   /* start at inner edge of border */
-    right: 0;  /* go to inner edge of border */
+    left: 0; /* start at inner edge of border */
+    right: 0; /* go to inner edge of border */
     bottom: 0; /* align with bottom border */
     height: 5px;
-    background-color: rgba(28,79,16,1);
+    background-color: rgba(28, 79, 16, 1);
 }
 
 
@@ -190,18 +189,18 @@ code {
     display: inline-flex; /* Changed to inline-flex to be side by side */
     align-items: center;
     justify-content: center;
-    width: auto; 
+    width: auto;
     min-height: 36px; /* Reduced from 50px */
     background-color: rgb(38, 97, 133);
     border: 2px rgb(30, 35, 40) solid; /* Reduced border from 3px to 2px */
     cursor: pointer;
-    overflow: hidden; 
-    text-align: center; 
+    overflow: hidden;
+    text-align: center;
     word-wrap: break-word;
     color: white;
-    z-index: 3; 
+    z-index: 3;
     max-width: 150px; /* Added max-width to make them smaller */
-    transition: top 0.05s, background-color 0.05s; 
+    transition: top 0.05s, background-color 0.05s;
     font-size: 14px; /* Reduced from 16px */
     padding: 0 12px; /* Reduced padding */
     margin: 0 8px;
@@ -362,4 +361,291 @@ code {
     font-size: 0.875rem;
     font-weight: 500;
     min-width: 70px;
+}
+
+/* README Preview Styles */
+.readme-preview {
+    color: #d1d5db;
+    line-height: 1.6;
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+/* Make README preview font smaller for both themes */
+.readme-preview,
+.readme-preview.minecraft,
+.readme-preview.modern {
+    font-size: 0.8rem;
+}
+
+/* Make markdown headings, paragraphs, lists, code, etc. smaller inside preview */
+.readme-preview .readme-h1,
+.readme-preview .readme-h2,
+.readme-preview .readme-h3,
+.readme-preview .readme-p,
+.readme-preview .readme-ul,
+.readme-preview .readme-ol,
+.readme-preview .readme-li,
+.readme-preview .readme-inline-code,
+.readme-preview .readme-code-block,
+.readme-preview .readme-blockquote {
+    font-size: 0.8rem;
+}
+
+/* Custom scrollbar for README preview */
+.readme-preview::-webkit-scrollbar {
+    width: 8px;
+}
+
+.readme-preview::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.readme-preview::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.readme-preview::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* Minecraft theme scrollbar */
+.readme-preview.minecraft::-webkit-scrollbar-track {
+    background: rgb(30, 30, 31);
+    border-radius: 0;
+}
+
+.readme-preview.minecraft::-webkit-scrollbar-thumb {
+    background: rgb(72, 73, 74);
+    border-radius: 0;
+}
+
+.readme-preview.minecraft::-webkit-scrollbar-thumb:hover {
+    background: rgb(88, 88, 90);
+}
+
+/* Headings */
+.readme-h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #f9fafb;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.readme-h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #f3f4f6;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.readme-h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #e5e7eb;
+    margin-top: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Minecraft theme headings */
+.readme-preview.minecraft .readme-h1 {
+    border-bottom: 2px solid rgb(72, 73, 74);
+}
+
+/* Paragraphs */
+.readme-p {
+    margin-bottom: 0.75rem;
+    color: #d1d5db;
+}
+
+/* Lists */
+.readme-ul,
+.readme-ol {
+    margin-bottom: 0.75rem;
+    padding-left: 1.5rem;
+    color: #d1d5db;
+}
+
+.readme-ul {
+    list-style-type: disc;
+}
+
+.readme-ol {
+    list-style-type: decimal;
+}
+
+.readme-li {
+    margin-bottom: 0.25rem;
+}
+
+/* Links */
+.readme-link {
+    color: #60a5fa;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    border-bottom: 1px solid transparent;
+}
+
+.readme-link:hover {
+    color: #54fdfd;
+    border-bottom-color: #93c5fd;
+}
+
+/* Minecraft theme links */
+.readme-preview.minecraft .readme-link {
+    color: #5454fd;
+    border-bottom: 1px solid rgb(72, 73, 74);
+}
+
+.readme-preview.minecraft .readme-link:hover {
+    color: #54fdfd;
+    background-color: rgba(59, 130, 246, 0.1);
+}
+
+/* Inline code */
+.readme-inline-code {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #fbbf24;
+    padding: 0.125rem 0.375rem;
+    border-radius: 4px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.875em;
+    border: 1px solid rgba(251, 191, 36, 0.2);
+}
+
+/* Minecraft theme inline code */
+.readme-preview.minecraft .readme-inline-code {
+    border-radius: 0;
+    background-color: rgb(30, 30, 31);
+    border: 1px solid rgb(72, 73, 74);
+    color: #fdfd54;
+}
+
+/* Code blocks */
+.readme-code-block {
+    margin: 0.75rem 0 !important;
+    border-radius: 6px !important;
+    font-size: 0.875rem !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.readme-code-block pre {
+    margin: 0 !important;
+    background: transparent !important;
+}
+
+/* Minecraft theme code blocks */
+.readme-preview.minecraft .readme-code-block {
+    border-radius: 0 !important;
+    border: 2px solid rgb(30, 30, 31) !important;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Blockquotes */
+.readme-blockquote {
+    border-left: 3px solid #5454fd;
+    padding-left: 1rem;
+    margin: 0.75rem 0;
+    color: #9ca3af;
+    font-style: italic;
+    background-color: rgba(59, 130, 246, 0.05);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-radius: 0 4px 4px 0;
+}
+
+/* Minecraft theme blockquotes */
+.readme-preview.minecraft .readme-blockquote {
+    border-left: 3px solid rgb(72, 73, 74);
+    border-radius: 0;
+    background-color: rgba(72, 73, 74, 0.2);
+}
+
+/* View Full README Link */
+.readme-view-full {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #60a5fa;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    background-color: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    transition: all 0.2s ease;
+}
+
+.readme-view-full:hover {
+    background-color: rgba(59, 130, 246, 0.2);
+    border-color: rgba(59, 130, 246, 0.5);
+    color: #54fdfd;
+    transform: translateX(2px);
+}
+
+/* Minecraft theme view full link */
+.readme-view-full.minecraft {
+    border-radius: 0;
+    background-color: rgb(35, 60, 95);
+    border: 2px solid rgb(25, 40, 65);
+    color: rgb(190, 210, 240);
+}
+
+.readme-view-full.minecraft:hover {
+    background-color: rgb(45, 70, 105);
+    border-color: rgb(35, 50, 75);
+    transform: translate(-1px, -1px);
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Syntax highlighter overrides for better theme matching */
+.readme-preview pre[class*="language-"] {
+    background-color: #1e1e1e !important;
+}
+
+.readme-preview.minecraft pre[class*="language-"] {
+    background-color: rgb(20, 20, 21) !important;
+}
+
+/* === Minecraft Lore Style Tooltip === */
+
+/* Make hovercard-content transparent but restore padding for preview spacing */
+.hovercard-content {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 1.25rem; /* Restore padding for content spacing */
+    color: inherit;
+    opacity: 1;
+    transition: opacity 0.15s ease;
+    max-width: 500px;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+/* Minecraft theme for hovercard */
+.hovercard-minecraft {
+    background: rgba(15, 1, 16, 0.85);
+    border: 3px solid rgba(34, 4, 69, 0.85);
+    border-radius: 8px;
+    color: #a900a9;
+    font-family: "Minecraft", monospace;
+}
+
+/* Modern theme for hovercard */
+.hovercard-modern {
+    background: rgb(42, 43, 44);
+    border: 2px solid rgb(30, 30, 31);
+    border-radius: 8px;
+    color: #e5e7eb;
+    font-family: 'Inter', sans-serif;
 }

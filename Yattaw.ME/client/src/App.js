@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import AnimatedCounter from './components/AnimatedCounter';
 import { ThemeSwitch } from "./components/ThemeSwitch";
+import RepositoryCard from './components/RepositoryCard'; // <-- Add import
 
 const API_BASE_URL = 'http://localhost:5000/api';
 
@@ -140,39 +140,12 @@ function App() {
                                             <div className="flex flex-wrap -mx-4">
                                                 {repository.map((repo, i) => (
                                                     <div key={i} className="w-full md:w-1/3 px-4 mt-8 mb-8">
-                                                        {/* Minecraft-style repository box */}
-                                                        <div className="minecraft-box">
-                                                            <div className="minecraft-box-header flex justify-between items-center">
-                                                                <h3 className="text-gray-200 font-medium">{repo.name}</h3>
-                                                                <div className="flex">
-                                                                <span className="commits-counter">
-                                                                    ~<AnimatedCounter
-                                                                    value={repo.commitCount}
-                                                                    triggerKey={pageIndex === activeSlide ? activeSlide : null}
-                                                                /> commits
-                                                                </span>
-                                                                    <span className="stars-counter">
-                                                                    <AnimatedCounter
-                                                                        value={repo.starCount || 0}
-                                                                        triggerKey={pageIndex === activeSlide ? activeSlide : null}
-                                                                    /> stars
-                                                                </span>
-                                                                </div>
-                                                            </div>
-                                                            <div className="minecraft-box-content">
-                                                                <p className="text-gray-300 text-sm mb-2 flex-grow pl-1">{repo.description}</p>
-                                                                <div className="flex justify-between mb-2 items-center">
-                                                                    <span className="minecraft-tag">{repo.language}</span>
-                                                                    <small className="text-gray-400">{repo.getSimpleDate}</small>
-                                                                </div>
-                                                                <a
-                                                                    href={repo.htmlUrl}
-                                                                    className="minecraft-button w-full"
-                                                                >
-                                                                    GitHub Repository Link
-                                                                </a>
-                                                            </div>
-                                                        </div>
+                                                        <RepositoryCard
+                                                            repository={repo}
+                                                            isActive={pageIndex === activeSlide}
+                                                            activeSlide={activeSlide}
+                                                            isMinecraftTheme={isMinecraftTheme}
+                                                        />
                                                     </div>
                                                 ))}
                                             </div>
