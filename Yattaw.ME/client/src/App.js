@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { ThemeSwitch } from "./components/ThemeSwitch";
 import RepositoryCard from './components/RepositoryCard'; // <-- Add import
 
-const API_BASE_URL = 'https://api.yattaw.me/api';
+const API_BASE_URL = 'http://localhost:5000/api';
 
 function App() {
     const [profile, setProfile] = useState(null);

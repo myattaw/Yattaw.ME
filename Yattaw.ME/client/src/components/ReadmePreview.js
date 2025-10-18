@@ -2,10 +2,11 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { darcula } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { darcula, vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { FileText } from 'lucide-react';
 
 export const ReadmePreview = ({ content, isMinecraftTheme = true }) => {
+    
     const previewContent = content.slice(0, 2000);
     const isTruncated = content.length > 2000;
 
@@ -21,7 +22,7 @@ export const ReadmePreview = ({ content, isMinecraftTheme = true }) => {
                 style={{ maxHeight: '500px', overflowY: 'auto' }}
             >
                 <ReactMarkdown
-                    remarkPlugins={[remarkGfm]} // ✅ Enable GitHub Flavored Markdown
+                    remarkPlugins={[remarkGfm]}
                     components={{
                         h1: ({ children }) => <h1 className="readme-h1">{children}</h1>,
                         h2: ({ children }) => <h2 className="readme-h2">{children}</h2>,
@@ -45,7 +46,7 @@ export const ReadmePreview = ({ content, isMinecraftTheme = true }) => {
                             const language = match ? match[1] : '';
                             return !inline && language ? (
                                 <SyntaxHighlighter
-                                    style={darcula}
+                                    style={isMinecraftTheme ? darcula : vscDarkPlus}
                                     language={language}
                                     PreTag="div"
                                     className="readme-code-block"
