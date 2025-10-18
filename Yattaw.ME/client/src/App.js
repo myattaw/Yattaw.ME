@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { ThemeSwitch } from "./components/ThemeSwitch";
 import RepositoryCard from './components/RepositoryCard'; // <-- Add import
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'https://api.yattaw.me/api';
 
 function App() {
     const [profile, setProfile] = useState(null);
@@ -97,13 +97,13 @@ function App() {
                         <h1 className="text-4xl font-bold my-2 text-white">{profile.fullName}</h1>
                         <p className="text-lg text-gray-300">{profile.description}</p>
                         <p className="mt-4 flex justify-center gap-2">
-                            <a href={profile.githubUrl} className="minecraft-button-blue w-[150px]">
+                            <a href={profile.githubUrl} className={isMinecraftTheme ? "minecraft-button-blue" : "modern-button-primary"}>
                                 <span className="flex items-center w-full justify-center relative">
                                     <span className="mx-auto">GitHub</span>
                                     <img src="/link.svg" alt="link" className="ml-auto w-5 h-5" />
                                 </span>
                             </a>
-                            <a href={profile.linkedinUrl} className="minecraft-button-blue w-[150px]">
+                            <a href={profile.githubUrl} className={isMinecraftTheme ? "minecraft-button-blue" : "modern-button-primary"}>
                                 <span className="flex items-center w-full justify-center relative">
                                     <span className="mx-auto">LinkedIn</span>
                                     <img src="/link.svg" alt="link" className="ml-auto w-5 h-5" />
